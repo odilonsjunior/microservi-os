@@ -38,7 +38,7 @@ services:
 
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic pedido-finalizado --replication-factor 1 --partitions 1
 
-      echo -e '[\033[0;33mINFO\033[0m]: Successfully created the following topics:'
+      echo -e '[INFO]: Successfully created the following topics:'
       kafka-topics --bootstrap-server kafka:9092 --list
       "
 
