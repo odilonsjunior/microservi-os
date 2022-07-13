@@ -14,7 +14,7 @@ HELP.md
 **/.mvn
 **/mvn
 **/mvnw
-**/mvnw.cm
+**/mvnw.cmd
 
 ### VS Code ###
 **/.vscode/
