@@ -12,6 +12,7 @@
         <module>cliente-ms</module>
         <module>pedidos-ms</module>
         <module>produtos-ms</module>
+        <module>processamento-ms</module>
     </modules>
 
 </project>
