@@ -3,7 +3,7 @@ HELP.md
 !**/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+**/
 ### STS ###
 .apt_generated
 .classpath
@@ -18,6 +18,11 @@ HELP.md
 **/*.iws
 **/*.iml
 **/*.ipr
+
+**/.mvn
+**/mvn
+**/mvnw
+**/mvnw
 
 ### VS Code ###
 **/.vscode/
