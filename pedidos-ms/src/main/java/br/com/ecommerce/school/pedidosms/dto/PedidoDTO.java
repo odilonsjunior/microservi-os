@@ -20,4 +20,20 @@ public class PedidoDTO {
     public List<ProdutosDTO> getProdutos() {
         return produtos;
     }
+
+    public void setCliente(UUID cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setProdutos(List<ProdutosDTO> produtos) {
+        this.produtos = produtos;
+    }
+
+    @Override
+    public String toString() {
+        return "PedidoDTO{" +
+                "cliente=" + cliente +
+                ", produtos=" + produtos +
+                '}';
+    }
 }
