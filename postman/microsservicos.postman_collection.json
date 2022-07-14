@@ -6,12 +6,31 @@
 	},
 	"item": [
 		{
-			"name": "criar-pedidos",
+			"name": "Criar pedidos",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
 					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gerar Nota Fiscal (Mock)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/nfe",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"nfe"
+					]
 				}
 			},
 			"response": []
