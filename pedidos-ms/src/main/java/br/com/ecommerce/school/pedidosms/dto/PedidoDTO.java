@@ -1,32 +1,43 @@
 package br.com.ecommerce.school.pedidosms.dto;
 
+import br.com.ecommerce.school.pedidosms.entity.EStatusPedido;
+
 import java.util.List;
-import java.util.UUID;
 
 public class PedidoDTO {
 
-    private UUID cliente;
-    private List<ProdutosDTO> produtos;
+    private String cliente;
+    private List<ProdutoDTO> produtos;
+    private EStatusPedido status;
 
-    public PedidoDTO(UUID cliente, List<ProdutosDTO> produtos) {
+    public PedidoDTO(String cliente, List<ProdutoDTO> produtos, EStatusPedido status) {
         this.cliente = cliente;
         this.produtos = produtos;
+        this.status = status;
     }
 
-    public UUID getCliente() {
+    public String getCliente() {
         return cliente;
     }
 
-    public List<ProdutosDTO> getProdutos() {
+    public List<ProdutoDTO> getProdutos() {
         return produtos;
     }
 
-    public void setCliente(UUID cliente) {
+    public void setCliente(String cliente) {
         this.cliente = cliente;
     }
 
-    public void setProdutos(List<ProdutosDTO> produtos) {
+    public void setProdutos(List<ProdutoDTO> produtos) {
         this.produtos = produtos;
+    }
+
+    public EStatusPedido getStatus() {
+        return status;
+    }
+
+    public void setStatus(EStatusPedido status) {
+        this.status = status;
     }
 
     @Override

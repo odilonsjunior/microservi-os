@@ -2,17 +2,21 @@ package br.com.ecommerce.school.pedidosms.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.UUID;
+import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
+@Table(name = "produtos")
 public class Produto {
 
     @Id
-    private String codigo = UUID.randomUUID().toString();
+    private String codigo;
+    private BigDecimal quantidade;
 
-    private Double quantidade;
+    public Produto() {
+    }
 
-    public Produto(String codigo, Double quantidade) {
+    public Produto(String codigo, BigDecimal quantidade) {
         this.codigo = codigo;
         this.quantidade = quantidade;
     }
@@ -21,7 +25,15 @@ public class Produto {
         return codigo;
     }
 
-    public Double getQuantidade() {
+    public BigDecimal getQuantidade() {
         return quantidade;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setQuantidade(BigDecimal quantidade) {
+        this.quantidade = quantidade;
     }
 }

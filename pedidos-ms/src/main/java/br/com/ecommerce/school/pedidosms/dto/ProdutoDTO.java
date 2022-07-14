@@ -1,19 +1,18 @@
 package br.com.ecommerce.school.pedidosms.dto;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
-public class ProdutosDTO {
+public class ProdutoDTO {
 
-    private UUID codigo;
+    private String codigo;
     private BigDecimal quantidade;
 
-    public ProdutosDTO(UUID codigo, BigDecimal quantidade) {
+    public ProdutoDTO(String codigo, BigDecimal quantidade) {
         this.codigo = codigo;
         this.quantidade = quantidade;
     }
 
-    public UUID getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
