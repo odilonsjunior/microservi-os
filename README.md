@@ -1,5 +1,5 @@
 ### Micro-servicos
 ![alt Micro-servicos](micro-servicos.png)
 
-### POC kafka
+### Arquitetura
 ![alt Desenho da arquitetura](desenho_arquitetura.png)
