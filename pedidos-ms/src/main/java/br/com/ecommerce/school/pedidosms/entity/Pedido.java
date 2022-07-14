@@ -23,24 +23,24 @@ public class Pedido {
 
     private String cliente;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "codigo")
-    private List<Produto> produtos;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "codigo_pedido")
+    private List<ItemPedido> items;
 
     public Pedido() {
     }
 
-    public Pedido(String codigo, EStatusPedido status, String cliente, List<Produto> produtos) {
+    public Pedido(String codigo, EStatusPedido status, String cliente, List<ItemPedido> produtos) {
         this.codigo = codigo;
         this.status = status;
         this.cliente = cliente;
-        this.produtos = produtos;
+        this.items = produtos;
     }
 
-    public Pedido(EStatusPedido status, String cliente, List<Produto> produtos) {
+    public Pedido(EStatusPedido status, String cliente, List<ItemPedido> produtos) {
         this.status = status;
         this.cliente = cliente;
-        this.produtos = produtos;
+        this.items = produtos;
     }
 
     public String getCodigo() {
@@ -55,8 +55,8 @@ public class Pedido {
         return cliente;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<ItemPedido> getItems() {
+        return items;
     }
 
     public void setCodigo(String codigo) {
@@ -71,7 +71,7 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setItems(List<ItemPedido> items) {
+        this.items = items;
     }
 }
