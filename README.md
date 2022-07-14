@@ -1,5 +1,5 @@
 ### Micro-servicos
-![alt Micro-servicos](micro-servicos.png)
+![alt Micro-servicos](arquitetura/micro-servicos.png)
 
 ### Arquitetura
-![alt Desenho da arquitetura](desenho_arquitetura.png)
+![alt Desenho da arquitetura](arquitetura/desenho_arquitetura.png)
