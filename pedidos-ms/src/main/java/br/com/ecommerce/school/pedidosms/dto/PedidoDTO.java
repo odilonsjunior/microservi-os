@@ -7,10 +7,10 @@ import java.util.List;
 public class PedidoDTO {
 
     private String cliente;
-    private List<ProdutoDTO> produtos;
+    private List<ItemPedidoDTO> produtos;
     private EStatusPedido status;
 
-    public PedidoDTO(String cliente, List<ProdutoDTO> produtos, EStatusPedido status) {
+    public PedidoDTO(String cliente, List<ItemPedidoDTO> produtos, EStatusPedido status) {
         this.cliente = cliente;
         this.produtos = produtos;
         this.status = status;
@@ -20,7 +20,7 @@ public class PedidoDTO {
         return cliente;
     }
 
-    public List<ProdutoDTO> getProdutos() {
+    public List<ItemPedidoDTO> getProdutos() {
         return produtos;
     }
 
@@ -28,7 +28,7 @@ public class PedidoDTO {
         this.cliente = cliente;
     }
 
-    public void setProdutos(List<ProdutoDTO> produtos) {
+    public void setProdutos(List<ItemPedidoDTO> produtos) {
         this.produtos = produtos;
     }
 
@@ -43,8 +43,9 @@ public class PedidoDTO {
     @Override
     public String toString() {
         return "PedidoDTO{" +
-                "cliente=" + cliente +
+                "cliente='" + cliente + '\'' +
                 ", produtos=" + produtos +
+                ", status=" + status +
                 '}';
     }
 }

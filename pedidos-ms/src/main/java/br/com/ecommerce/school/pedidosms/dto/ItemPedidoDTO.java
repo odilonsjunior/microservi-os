@@ -2,12 +2,12 @@ package br.com.ecommerce.school.pedidosms.dto;
 
 import java.math.BigDecimal;
 
-public class ProdutoDTO {
+public class ItemPedidoDTO {
 
     private String produto;
     private BigDecimal quantidade;
 
-    public ProdutoDTO(String codigo, BigDecimal quantidade) {
+    public ItemPedidoDTO(String codigo, BigDecimal quantidade) {
         this.produto = codigo;
         this.quantidade = quantidade;
     }
@@ -18,5 +18,13 @@ public class ProdutoDTO {
 
     public BigDecimal getQuantidade() {
         return quantidade;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemPedidoDTO{" +
+                "produto='" + produto + '\'' +
+                ", quantidade=" + quantidade +
+                '}';
     }
 }

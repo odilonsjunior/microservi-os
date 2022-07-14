@@ -37,10 +37,10 @@ public class Pedido {
         this.items = produtos;
     }
 
-    public Pedido(EStatusPedido status, String cliente, List<ItemPedido> produtos) {
+    public Pedido(EStatusPedido status, String cliente, List<ItemPedido> items) {
         this.status = status;
         this.cliente = cliente;
-        this.items = produtos;
+        this.items = items;
     }
 
     public String getCodigo() {

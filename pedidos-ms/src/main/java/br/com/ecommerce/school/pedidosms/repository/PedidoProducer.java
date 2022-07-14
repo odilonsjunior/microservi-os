@@ -5,20 +5,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CriarPedidoRepository implements ICriarPedidoRepository {
+public class PedidoProducer implements IPedidoProducer {
 
     private String criarPedido;
 
     private Producer<PedidoDTO> producerPedido;
 
-    public CriarPedidoRepository(@Value("${criar.pedido}") String criarPedido,
-                                 Producer<PedidoDTO> producerPedido) {
+    public PedidoProducer(@Value("${criar.pedido}") String criarPedido,
+                          Producer<PedidoDTO> producerPedido) {
         this.criarPedido = criarPedido;
         this.producerPedido = producerPedido;
     }
 
     @Override
-    public void criarPedido(PedidoDTO pedidoDTO) {
+    public void enviarPedido(PedidoDTO pedidoDTO) {
         producerPedido.enviar(criarPedido, pedidoDTO);
     }
 }

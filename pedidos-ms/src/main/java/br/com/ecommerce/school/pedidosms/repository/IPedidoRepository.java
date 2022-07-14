@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IPedidoDAO extends JpaRepository<Pedido, String> {
+public interface IPedidoRepository extends JpaRepository<Pedido, String> {
 
     Optional<Pedido> findByCliente(final String cliente);
 }
