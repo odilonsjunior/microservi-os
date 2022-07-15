@@ -1,58 +1,69 @@
 version: "3.3"
 
 services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - 22181:2181
+   zookeeper:
+     image: confluentinc/cp-zookeeper:latest
+     environment:
+       ZOOKEEPER_CLIENT_PORT: 2181
+       ZOOKEEPER_TICK_TIME: 2000
+     ports:
+       - 22181:2181
 
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - zookeeper
-    ports:
-      - 29092:29092
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+   kafka:
+     image: confluentinc/cp-kafka:latest
+     depends_on:
+       - zookeeper
+     ports:
+       - 29092:29092
+     environment:
+       KAFKA_BROKER_ID: 1
+       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  init-kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:9092 --list
+   init-kafka:
+     image: confluentinc/cp-kafka:latest
+     depends_on:
+       - kafka
+     entrypoint: [ '/bin/sh', '-c' ]
+     command: |
+       "
+       # blocks until kafka is reachable
+       kafka-topics --bootstrap-server kafka:9092 --list
 
-      echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic processar-pedido --replication-factor 1 --partitions 1
+       echo -e 'Creating kafka topics'
+       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic processar-pedido --replication-factor 1 --partitions 1
 
-      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic pedido-finalizado --replication-factor 1 --partitions 1
+       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic pedido-finalizado --replication-factor 1 --partitions 1
 
-      echo -e '[INFO]: Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:9092 --list
-      "
+       echo -e '[INFO]: Successfully created the following topics:'
+       kafka-topics --bootstrap-server kafka:9092 --list
+       "
   db:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
+      # MYSQL_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'password'
+    command: |
+      sh -c "
+
+      echo 'CREATE DATABASE IF NOT EXISTS pedidos; \
+        CREATE DATABASE IF NOT EXISTS cliente; \
+        USE cliente; \
+        CREATE TABLE clientes (codigo varchar(36) NOT NULL, primeiroNome varchar(255) NOT NULL, ultimoNome varchar(255) NOT NULL, email varchar(255), status varchar(100) NOT NULL, PRIMARY KEY (codigo)); \
+        ' > /docker-entrypoint-initdb.d/init.sql;
+
+      /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      "
+
     ports:
       - '3306:3306'
     expose:
       - '3306'
+
   nota-fiscal:
     image: wiremock/wiremock
     ports:
