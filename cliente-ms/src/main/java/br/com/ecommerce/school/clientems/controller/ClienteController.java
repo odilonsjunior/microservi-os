@@ -5,13 +5,14 @@ import br.com.ecommerce.school.clientems.exception.ClientNotFoudException;
 import br.com.ecommerce.school.clientems.service.IBuscarClienteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 public class ClienteController {
 
     private final IBuscarClienteService service;
@@ -20,8 +21,8 @@ public class ClienteController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<Cliente> buscar(String cliente) {
+    @GetMapping("/{cliente}")
+    public ResponseEntity<Cliente> buscar(@PathVariable(required=false,name="cliente")  String cliente) {
         final Optional<Cliente> buscar = service.buscar(cliente);
 
         if (buscar.isPresent()) {
