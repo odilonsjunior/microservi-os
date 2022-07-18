@@ -6,14 +6,16 @@ import java.util.List;
 
 public class PedidoDTO {
 
+    private String codigo;
     private String cliente;
     private List<ItemPedidoDTO> produtos;
     private EStatusPedido status;
 
-    public PedidoDTO(String cliente, List<ItemPedidoDTO> produtos, EStatusPedido status) {
+    public PedidoDTO(String codigo, String cliente, List<ItemPedidoDTO> produtos, EStatusPedido status) {
         this.cliente = cliente;
         this.produtos = produtos;
         this.status = status;
+        this.codigo = codigo;
     }
 
     public String getCliente() {
@@ -40,12 +42,12 @@ public class PedidoDTO {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "PedidoDTO{" +
-                "cliente='" + cliente + '\'' +
-                ", produtos=" + produtos +
-                ", status=" + status +
-                '}';
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void addCodigoGerado(String codigo){
+        this.codigo = codigo;
+
     }
 }

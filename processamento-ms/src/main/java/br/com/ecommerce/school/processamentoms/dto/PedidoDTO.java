@@ -4,20 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 public class PedidoDTO implements Serializable {
 
-    private UUID cliente;
+    private String codigo;
+    private String cliente;
     private List<ItemPedidoDTO> produtos;
 
-    public PedidoDTO(@JsonProperty("cliente") UUID cliente,
-                     @JsonProperty("produtos")List<ItemPedidoDTO> produtos) {
+    public PedidoDTO(@JsonProperty("cliente") String cliente,
+                     @JsonProperty("produtos")List<ItemPedidoDTO> produtos,
+                     @JsonProperty("codigo")String codigo) {
         this.cliente = cliente;
         this.produtos = produtos;
+        this.codigo = codigo;
     }
 
-    public UUID getCliente() {
+    public String getCliente() {
         return cliente;
     }
 
@@ -25,6 +27,9 @@ public class PedidoDTO implements Serializable {
         return produtos;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
 
     @Override
     public String toString() {

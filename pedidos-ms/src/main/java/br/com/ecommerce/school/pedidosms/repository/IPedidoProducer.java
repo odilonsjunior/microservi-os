@@ -1,9 +1,9 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
-import br.com.ecommerce.school.pedidosms.dto.PedidoDTO;
+import br.com.ecommerce.school.pedidosms.entity.Pedido;
 
 public interface IPedidoProducer {
 
-    void enviarPedido(PedidoDTO pedidoDTO);
+    void enviarPedido(Pedido pedido);
 
 }

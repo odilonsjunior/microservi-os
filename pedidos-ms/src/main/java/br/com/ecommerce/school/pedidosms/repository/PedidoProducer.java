@@ -1,8 +1,13 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
+import br.com.ecommerce.school.pedidosms.dto.ItemPedidoDTO;
 import br.com.ecommerce.school.pedidosms.dto.PedidoDTO;
+import br.com.ecommerce.school.pedidosms.entity.Pedido;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PedidoProducer implements IPedidoProducer {
@@ -18,7 +23,13 @@ public class PedidoProducer implements IPedidoProducer {
     }
 
     @Override
-    public void enviarPedido(PedidoDTO pedidoDTO) {
+    public void enviarPedido(Pedido pedido) {
+
+        final List<ItemPedidoDTO> itensProdutos =
+                pedido.getItems().stream().map(p -> new ItemPedidoDTO(p.getProduto(), p.getQuantidade())).collect(Collectors.toList());
+
+        final PedidoDTO pedidoDTO = new PedidoDTO(pedido.getCodigo(), pedido.getCliente(), itensProdutos,
+                pedido.getStatus());
         producerPedido.enviar(criarPedido, pedidoDTO);
     }
 }
