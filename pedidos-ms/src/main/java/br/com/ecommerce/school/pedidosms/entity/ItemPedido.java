@@ -15,7 +15,7 @@ public class ItemPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String produto;
+    private String codigo;
 
     private BigDecimal quantidade;
 
@@ -23,7 +23,7 @@ public class ItemPedido {
     }
 
     public ItemPedido(String produto, BigDecimal quantidade) {
-        this.produto = produto;
+        this.codigo = produto;
         this.quantidade = quantidade;
     }
 
@@ -35,11 +35,11 @@ public class ItemPedido {
         this.quantidade = quantidade;
     }
 
-    public String getProduto() {
-        return produto;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setProduto(String produto) {
-        this.produto = produto;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }

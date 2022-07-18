@@ -1,11 +1,13 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
 import br.com.ecommerce.school.pedidosms.dto.ClienteDTO;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
+import br.com.ecommerce.school.pedidosms.config.WebClientConfig;
 
 import java.util.Optional;
 
@@ -17,7 +19,7 @@ public class ClienteRepository implements IClienteRepository {
     @Value("${uri.buscar.cliente}")
     private String uri;
 
-    public ClienteRepository(WebClient webClient) {
+    public ClienteRepository(@Qualifier(WebClientConfig.BEAN_CLIENTE) WebClient webClient) {
         this.webClient = webClient;
     }
 

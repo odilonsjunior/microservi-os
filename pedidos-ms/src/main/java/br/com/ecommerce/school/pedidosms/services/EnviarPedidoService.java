@@ -5,7 +5,7 @@ import br.com.ecommerce.school.pedidosms.dto.EStatusCliente;
 import br.com.ecommerce.school.pedidosms.dto.PedidoDTO;
 import br.com.ecommerce.school.pedidosms.entity.Pedido;
 import br.com.ecommerce.school.pedidosms.exception.InvalidOrderException;
-import br.com.ecommerce.school.pedidosms.helpers.ProdutoHelper;
+import br.com.ecommerce.school.pedidosms.helpers.ItemPedidoHelper;
 import br.com.ecommerce.school.pedidosms.repository.IClienteRepository;
 import br.com.ecommerce.school.pedidosms.repository.IPedidoProducer;
 import br.com.ecommerce.school.pedidosms.repository.IPedidoRepository;
@@ -51,10 +51,10 @@ public class EnviarPedidoService implements IEnviarPedidoService {
 
         final Pedido pedido = new Pedido( pedidoDTO.getStatus(),
                 pedidoDTO.getCliente(),
-                ProdutoHelper.parseProdutosDto(pedidoDTO.getProdutos()));
+                ItemPedidoHelper.parseItemPedidoDTOS(pedidoDTO.getProdutos()));
 
         repository.save(pedido);
 
-        pedidoProducer.enviarPedido(pedidoDTO);
+        pedidoProducer.enviarPedido(pedido);
     }
 }

@@ -39,6 +39,14 @@ public class Cliente {
         this.status = status;
     }
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
     public String getPrimeiroNome() {
         return primeiroNome;
     }

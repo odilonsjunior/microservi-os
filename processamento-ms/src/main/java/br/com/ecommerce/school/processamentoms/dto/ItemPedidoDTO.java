@@ -3,7 +3,6 @@ package br.com.ecommerce.school.processamentoms.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public class ItemPedidoDTO {
 
@@ -20,7 +19,15 @@ public class ItemPedidoDTO {
         return codigo;
     }
 
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
     public BigDecimal getQuantidade() {
         return quantidade;
+    }
+
+    public void setQuantidade(BigDecimal quantidade) {
+        this.quantidade = quantidade;
     }
 }

@@ -26,10 +26,10 @@ public class PedidoProducer implements IPedidoProducer {
     public void enviarPedido(Pedido pedido) {
 
         final List<ItemPedidoDTO> itensProdutos =
-                pedido.getItems().stream().map(p -> new ItemPedidoDTO(p.getProduto(), p.getQuantidade())).collect(Collectors.toList());
+                pedido.getItems().stream().map(p -> new ItemPedidoDTO(p.getCodigo(), p.getQuantidade())).collect(Collectors.toList());
 
-        final PedidoDTO pedidoDTO = new PedidoDTO(pedido.getCodigo(), pedido.getCliente(), itensProdutos,
-                pedido.getStatus());
+        final PedidoDTO pedidoDTO =
+                new PedidoDTO(pedido.getCodigo(), pedido.getCliente(), itensProdutos, pedido.getStatus());
         producerPedido.enviar(criarPedido, pedidoDTO);
     }
 }
