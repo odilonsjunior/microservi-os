@@ -17,8 +17,6 @@ CREATE TABLE clientes (
 	PRIMARY KEY (codigo)
 );
 
-
- 
 INSERT INTO clientes (codigo, primeiroNome, ultimoNome, email, status) VALUES ("af8a7df4-7a1b-4f2f-b965-d9b090e67ec4", "Darice", "Pentecost", "dpentecost19@rakuten.co.jp", "INATIVO");
 
 INSERT INTO clientes (codigo, primeiroNome, ultimoNome, email, status) VALUES ("7706dc25-c990-42cb-8938-c7662c6743c9", "Michael", "Thys", "mthysw@accuweather.com", "ATIVO");
