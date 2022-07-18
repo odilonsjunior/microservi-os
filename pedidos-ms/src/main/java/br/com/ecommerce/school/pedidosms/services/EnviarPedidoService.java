@@ -35,23 +35,23 @@ public class EnviarPedidoService implements IEnviarPedidoService {
     @Override
     public void enviarPedido(PedidoDTO pedidoDTO) {
 
-        final Pedido pedido = new Pedido(
-//        final Optional<ClienteDTO> clienteDTO
-//                = clienteRepository.buscar(pedidoDTO.getCliente());
-//
-//        if (clienteDTO.isEmpty()) {
-//            throw new InvalidOrderException("Cliente não encontrado!");
-//        } else if (clienteDTO.get().getStatus() == EStatusCliente.BLOQUEADO) {
-//            throw new InvalidOrderException("Cliente possui conta bloqueada!");
-//        } else if (clienteDTO.get().getStatus() == EStatusCliente.INATIVO) {
-//            throw new InvalidOrderException("Cliente existente, porém, não possui ativa!");
-//        } else if (!pedidoDTO.getCliente().equals(clienteDTO.get().getCodigo())) {
-//            throw new InvalidOrderException("Código do cliente inválido!");
-//        }
-                pedidoDTO.getStatus(),
+
+        final Optional<ClienteDTO> clienteDTO
+                = clienteRepository.buscar(pedidoDTO.getCliente());
+
+        if (clienteDTO.isEmpty()) {
+            throw new InvalidOrderException("Cliente não encontrado!");
+        } else if (clienteDTO.get().getStatus() == EStatusCliente.BLOQUEADO) {
+            throw new InvalidOrderException("Cliente possui conta bloqueada!");
+        } else if (clienteDTO.get().getStatus() == EStatusCliente.INATIVO) {
+            throw new InvalidOrderException("Cliente existente, porém, não possui ativa!");
+        } else if (!pedidoDTO.getCliente().equals(clienteDTO.get().getCodigo())) {
+            throw new InvalidOrderException("Código do cliente inválido!");
+        }
+
+        final Pedido pedido = new Pedido( pedidoDTO.getStatus(),
                 pedidoDTO.getCliente(),
                 ProdutoHelper.parseProdutosDto(pedidoDTO.getProdutos()));
-//
 
         repository.save(pedido);
 
