@@ -23,53 +23,33 @@ services:
        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-   init-kafka:
-     image: confluentinc/cp-kafka:latest
-     depends_on:
-       - kafka
-     entrypoint: [ '/bin/sh', '-c' ]
+   db:
+     image: mysql:5.7
+     restart: always
+     environment:
+       # MYSQL_USER: 'root'
+       MYSQL_ROOT_PASSWORD: 'password'
      command: |
+       sh -c "
+       echo 'CREATE DATABASE IF NOT EXISTS pedidos; \
+         CREATE DATABASE IF NOT EXISTS clientes; \
+         CREATE DATABASE IF NOT EXISTS produtos; \
+         USE clientes; \
+         CREATE TABLE clientes (codigo varchar(36) NOT NULL, primeiroNome varchar(255) NOT NULL, ultimoNome varchar(255) NOT NULL, email varchar(255), status varchar(100) NOT NULL, PRIMARY KEY (codigo)); \
+         ' > /docker-entrypoint-initdb.d/init.sql;
+       /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
        "
-       # blocks until kafka is reachable
-       kafka-topics --bootstrap-server kafka:9092 --list
+     ports:
+       - '3306:3306'
+     expose:
+       - '3306'
 
-       echo -e 'Creating kafka topics'
-       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic processar-pedido --replication-factor 1 --partitions 1
-
-       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic pedido-finalizado --replication-factor 1 --partitions 1
-
-       echo -e '[INFO]: Successfully created the following topics:'
-       kafka-topics --bootstrap-server kafka:9092 --list
-       "
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      # MYSQL_USER: 'root'
-      MYSQL_ROOT_PASSWORD: 'password'
-    command: |
-      sh -c "
-
-      echo 'CREATE DATABASE IF NOT EXISTS pedidos; \
-        CREATE DATABASE IF NOT EXISTS cliente; \
-        USE cliente; \
-        CREATE TABLE clientes (codigo varchar(36) NOT NULL, primeiroNome varchar(255) NOT NULL, ultimoNome varchar(255) NOT NULL, email varchar(255), status varchar(100) NOT NULL, PRIMARY KEY (codigo)); \
-        ' > /docker-entrypoint-initdb.d/init.sql;
-
-      /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-      "
-
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
-
-  nota-fiscal:
-    image: wiremock/wiremock
-    ports:
-    - 8090:8080
-    volumes:
-    - "./wiremock:/home/wiremock/mappings/"
+   nota-fiscal:
+     image: wiremock/wiremock
+     ports:
+       - 8090:8080
+     volumes:
+       - "./wiremock:/home/wiremock/mappings/"
 
 
 ### NETWORKS ###
