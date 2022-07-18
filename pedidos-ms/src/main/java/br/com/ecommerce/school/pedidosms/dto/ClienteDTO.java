@@ -1,30 +1,19 @@
-package br.com.ecommerce.school.clientems.entity;
+package br.com.ecommerce.school.clientems.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.UUID;
+import br.com.ecommerce.school.clientems.entity.EStatusCliente;
 
-@Entity
-@Table(name = "clientes")
-public class Cliente {
+public class ClienteDTO {
 
-    @Id
-    private String codigo = UUID.randomUUID().toString();
+    private String codigo;
     private String primeiroNome;
     private String ultimoNome;
     private String email;
-
-    @Enumerated(value = EnumType.STRING)
     private EStatusCliente status;
 
-    public Cliente() {
+    public ClienteDTO() {
     }
 
-    public Cliente(String codigo, String primeiroNome, String ultimoNome, String email, EStatusCliente status) {
+    public ClienteDTO(String codigo, String primeiroNome, String ultimoNome, String email, EStatusCliente status) {
         this.codigo = codigo;
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
@@ -32,7 +21,7 @@ public class Cliente {
         this.status = status;
     }
 
-    public Cliente(String primeiroNome, String ultimoNome, String email, EStatusCliente status) {
+    public ClienteDTO(String primeiroNome, String ultimoNome, String email, EStatusCliente status) {
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
         this.email = email;
