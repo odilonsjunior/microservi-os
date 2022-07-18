@@ -9,10 +9,10 @@ import java.util.UUID;
 public class PedidoDTO implements Serializable {
 
     private UUID cliente;
-    private List<ProdutosDTO> produtos;
+    private List<ItemPedidoDTO> produtos;
 
     public PedidoDTO(@JsonProperty("cliente") UUID cliente,
-                     @JsonProperty("produtos")List<ProdutosDTO> produtos) {
+                     @JsonProperty("produtos")List<ItemPedidoDTO> produtos) {
         this.cliente = cliente;
         this.produtos = produtos;
     }
@@ -21,7 +21,7 @@ public class PedidoDTO implements Serializable {
         return cliente;
     }
 
-    public List<ProdutosDTO> getProdutos() {
+    public List<ItemPedidoDTO> getProdutos() {
         return produtos;
     }
 

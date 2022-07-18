@@ -16,7 +16,7 @@ public class BuscarClienteService implements IBuscarClienteService {
     }
 
     @Override
-    public Optional<Cliente> buscar(String cliente) {
-        return repository.findByCliente(cliente);
+    public Optional<Cliente> buscar(String codigo) {
+        return repository.findByCodigo(codigo);
     }
 }

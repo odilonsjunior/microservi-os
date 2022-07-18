@@ -24,11 +24,10 @@ public class ClienteController {
     @GetMapping("/{cliente}")
     public ResponseEntity<Cliente> buscar(@PathVariable(required=false,name="cliente")  String cliente) {
         final Optional<Cliente> buscar = service.buscar(cliente);
-
         if (buscar.isPresent()) {
             return ResponseEntity.ok(buscar.get());
         } else {
-            throw new ClientNotFoudException("Cliente não encontrado...");
+            throw new ClientNotFoudException();
         }
     }
 

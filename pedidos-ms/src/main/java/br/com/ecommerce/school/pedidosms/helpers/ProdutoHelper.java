@@ -14,7 +14,7 @@ public final class ProdutoHelper {
     public static List<ItemPedido> parseProdutosDto(List<ItemPedido> produtos, List<ItemPedidoDTO> produtosDto) {
         if (produtos == null) return new ArrayList<>();
         produtosDto.forEach(dto ->
-            produtos.add(new ItemPedido(dto.getProduto(), dto.getQuantidade())));
+            produtos.add(new ItemPedido(dto.getCodigo(), dto.getQuantidade())));
         return produtos;
     }
 

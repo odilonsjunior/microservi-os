@@ -4,16 +4,16 @@ import java.math.BigDecimal;
 
 public class ItemPedidoDTO {
 
-    private String produto;
+    private String codigo;
     private BigDecimal quantidade;
 
     public ItemPedidoDTO(String codigo, BigDecimal quantidade) {
-        this.produto = codigo;
+        this.codigo = codigo;
         this.quantidade = quantidade;
     }
 
-    public String getProduto() {
-        return produto;
+    public String getCodigo() {
+        return codigo;
     }
 
     public BigDecimal getQuantidade() {
@@ -23,7 +23,7 @@ public class ItemPedidoDTO {
     @Override
     public String toString() {
         return "ItemPedidoDTO{" +
-                "produto='" + produto + '\'' +
+                "produto='" + codigo + '\'' +
                 ", quantidade=" + quantidade +
                 '}';
     }

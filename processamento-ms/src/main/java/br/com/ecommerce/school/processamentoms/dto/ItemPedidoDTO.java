@@ -5,18 +5,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class ProdutosDTO {
+public class ItemPedidoDTO {
 
-    private UUID codigo;
+    private String codigo;
     private BigDecimal quantidade;
 
-    public ProdutosDTO(@JsonProperty("codigo") UUID codigo,
-                       @JsonProperty("quantidade")BigDecimal quantidade) {
+    public ItemPedidoDTO(@JsonProperty("codigo") String codigo,
+                         @JsonProperty("quantidade")BigDecimal quantidade) {
         this.codigo = codigo;
         this.quantidade = quantidade;
     }
 
-    public UUID getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 

@@ -52,6 +52,6 @@ public class Produto {
     }
 
     public void calcularEstoque(BigDecimal valor){
-        this.quantidade = this.getQuantidade().add(valor);
+        this.quantidade = this.getQuantidade().subtract(valor);
     }
 }
