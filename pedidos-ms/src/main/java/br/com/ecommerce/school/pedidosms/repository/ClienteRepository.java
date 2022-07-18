@@ -1,16 +1,15 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
 import br.com.ecommerce.school.pedidosms.dto.ClienteDTO;
-import br.com.ecommerce.school.pedidosms.services.IClienteRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
-@Service
+@Repository
 public class ClienteRepository implements IClienteRepository {
 
     private final WebClient webClient;

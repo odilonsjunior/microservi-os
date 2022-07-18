@@ -1,4 +1,4 @@
-package br.com.ecommerce.school.pedidosms.services;
+package br.com.ecommerce.school.pedidosms.repository;
 
 import br.com.ecommerce.school.pedidosms.dto.ClienteDTO;
 

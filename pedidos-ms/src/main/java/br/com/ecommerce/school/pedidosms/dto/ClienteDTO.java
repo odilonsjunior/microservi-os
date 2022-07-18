@@ -1,6 +1,4 @@
-package br.com.ecommerce.school.clientems.dto;
-
-import br.com.ecommerce.school.clientems.entity.EStatusCliente;
+package br.com.ecommerce.school.pedidosms.dto;
 
 public class ClienteDTO {
 
@@ -54,6 +52,10 @@ public class ClienteDTO {
 
     public EStatusCliente getStatus() {
         return status;
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     public void setStatus(EStatusCliente status) {
