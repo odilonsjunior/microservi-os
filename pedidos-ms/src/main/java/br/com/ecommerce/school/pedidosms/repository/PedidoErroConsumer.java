@@ -17,7 +17,7 @@ public class PedidoErroConsumer {
 
     @KafkaListener(topics = "${pedido.erro}", groupId = "${spring.kafka.consumer.group-id}")
     public void consumer(final PedidoErroDTO pedidoErroDTO) {
-        service.finalizarPedido(pedidoDTO);
+        service.pedidoComErro(pedidoErroDTO);
     }
 
 }
