@@ -1,7 +1,5 @@
 package br.com.ecommerce.school.pedidosms.dto;
 
-import br.com.ecommerce.school.pedidosms.entity.EStatusPedido;
-
 import java.util.List;
 
 public class PedidoDTO {
@@ -9,12 +7,10 @@ public class PedidoDTO {
     private String codigo;
     private String cliente;
     private List<ItemPedidoDTO> produtos;
-    private EStatusPedido status;
 
-    public PedidoDTO(String codigo, String cliente, List<ItemPedidoDTO> produtos, EStatusPedido status) {
+    public PedidoDTO(String codigo, String cliente, List<ItemPedidoDTO> produtos) {
         this.cliente = cliente;
         this.produtos = produtos;
-        this.status = status;
         this.codigo = codigo;
     }
 
@@ -32,14 +28,6 @@ public class PedidoDTO {
 
     public void setProdutos(List<ItemPedidoDTO> produtos) {
         this.produtos = produtos;
-    }
-
-    public EStatusPedido getStatus() {
-        return status;
-    }
-
-    public void setStatus(EStatusPedido status) {
-        this.status = status;
     }
 
     public String getCodigo() {

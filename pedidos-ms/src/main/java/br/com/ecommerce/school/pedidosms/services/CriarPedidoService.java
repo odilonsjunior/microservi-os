@@ -3,6 +3,7 @@ package br.com.ecommerce.school.pedidosms.services;
 import br.com.ecommerce.school.pedidosms.dto.ClienteDTO;
 import br.com.ecommerce.school.pedidosms.dto.EStatusCliente;
 import br.com.ecommerce.school.pedidosms.dto.ItemPedidoDTO;
+import br.com.ecommerce.school.pedidosms.dto.PedidoCriadoDTO;
 import br.com.ecommerce.school.pedidosms.dto.PedidoDTO;
 import br.com.ecommerce.school.pedidosms.dto.ProdutoDTO;
 import br.com.ecommerce.school.pedidosms.entity.Pedido;
@@ -41,19 +42,20 @@ public class CriarPedidoService implements ICriarPedidoService {
     }
 
     @Override
-    public void enviarPedido(PedidoDTO pedidoDTO) {
+    public PedidoCriadoDTO criar(PedidoDTO pedidoDTO) {
 
         validarCliente(pedidoDTO);
 
         validarProduto(pedidoDTO);
 
-        final Pedido pedido = new Pedido(pedidoDTO.getStatus(),
-                pedidoDTO.getCliente(),
+        final Pedido pedido = new Pedido(pedidoDTO.getCliente(),
                 ItemPedidoHelper.parseItemPedidoDTOS(pedidoDTO.getProdutos()));
 
-        pedidoRepository.save(pedido);
+        final Pedido pedidoCriado = pedidoRepository.save(pedido);
 
         pedidoProducer.enviarPedido(pedido);
+
+        return new PedidoCriadoDTO(pedidoCriado.getCodigo());
     }
 
     private void validarProduto(PedidoDTO pedidoDTO) {

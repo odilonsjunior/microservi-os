@@ -1,7 +1,9 @@
 package br.com.ecommerce.school.pedidosms.controllers;
 
+import br.com.ecommerce.school.pedidosms.dto.PedidoCriadoDTO;
 import br.com.ecommerce.school.pedidosms.dto.PedidoDTO;
 import br.com.ecommerce.school.pedidosms.services.ICriarPedidoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +21,10 @@ public class PedidosController {
     }
 
     @PostMapping
-    public ResponseEntity enviarPedidos(@RequestBody PedidoDTO pedidoDTO){
+    public ResponseEntity<PedidoCriadoDTO> enviarPedidos(@RequestBody PedidoDTO pedidoDTO) {
 
-        service.enviarPedido(pedidoDTO);
+        final PedidoCriadoDTO pedidoCriado = service.criar(pedidoDTO);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity(pedidoCriado, HttpStatus.CREATED);
     }
 }

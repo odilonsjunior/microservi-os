@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,20 +28,29 @@ public class Pedido {
     @JoinColumn(name = "codigo_pedido")
     private List<ItemPedido> items;
 
+    @JoinColumn(name = "data_criacao")
+    private Calendar dataCriacao;
+
     public Pedido() {
+        this.status = EStatusPedido.PROCESSANDO;
+        dataCriacao = Calendar.getInstance();
     }
 
-    public Pedido(String codigo, EStatusPedido status, String cliente, List<ItemPedido> produtos) {
-        this.codigo = codigo;
-        this.status = status;
+    public Pedido(String cliente, List<ItemPedido> produtos) {
         this.cliente = cliente;
         this.items = produtos;
+        dataCriacao = Calendar.getInstance();
+        this.status = EStatusPedido.PROCESSANDO;
+        dataCriacao = Calendar.getInstance();
     }
 
     public Pedido(EStatusPedido status, String cliente, List<ItemPedido> items) {
         this.status = status;
         this.cliente = cliente;
         this.items = items;
+        this.status = EStatusPedido.PROCESSANDO;
+        dataCriacao = Calendar.getInstance();
+
     }
 
     public String getCodigo() {
@@ -73,5 +83,9 @@ public class Pedido {
 
     public void setItems(List<ItemPedido> items) {
         this.items = items;
+    }
+
+    public Calendar getDataCriacao() {
+        return dataCriacao;
     }
 }
