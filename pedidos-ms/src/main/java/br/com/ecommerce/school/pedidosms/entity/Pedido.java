@@ -88,4 +88,12 @@ public class Pedido {
     public Calendar getDataCriacao() {
         return dataCriacao;
     }
+
+    public void comErro(){
+        this.status = EStatusPedido.ERRO;
+    }
+
+    public void disponivelParaRetirada(){
+        this.status = EStatusPedido.DISPONIVEL_RETIRADA;
+    }
 }

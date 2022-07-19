@@ -1,8 +1,8 @@
 package br.com.ecommerce.school.pedidosms.services;
 
 
+import br.com.ecommerce.school.pedidosms.dto.PedidoErroDTO;
 import br.com.ecommerce.school.pedidosms.dto.PedidoFinalizadoDTO;
-import br.com.ecommerce.school.pedidosms.entity.EStatusPedido;
 import br.com.ecommerce.school.pedidosms.entity.Pedido;
 import br.com.ecommerce.school.pedidosms.exception.InvalidOrderException;
 import br.com.ecommerce.school.pedidosms.repository.IPedidoRepository;
@@ -22,14 +22,26 @@ public class FinalizarPedidoService implements IFinalizarPedidoService {
     @Override
     public void finalizarPedido(PedidoFinalizadoDTO pedidoDTO) {
 
-        final Optional<Pedido> cliente = pedidoRepository.findById(pedidoDTO.getCodigo());
+        final Optional<Pedido> clienteEncontrado = pedidoRepository.findById(pedidoDTO.getCodigo());
 
-        if (cliente.isEmpty()) {
-            throw new InvalidOrderException("Cliente não encontrado!");
+        if (clienteEncontrado.isEmpty()) {
+            throw new InvalidOrderException("Pedido não encontrado!");
         }
 
-        Pedido pedido = cliente.get();
-        pedido.setStatus(EStatusPedido.FINALIZADO);
+        Pedido pedido = clienteEncontrado.get();
+        pedido.disponivelParaRetirada();
         pedidoRepository.save(pedido);
+    }
+
+    @Override
+    public void pedidoComErro(PedidoErroDTO pedidoErroDTO) {
+        final Optional<Pedido> pedido = pedidoRepository.findById(pedidoErroDTO.getCodigo());
+
+        if (pedido.isEmpty()) {
+            throw new InvalidOrderException("Pedido não encontrado!");
+        }
+        pedido.get().comErro();
+
+        pedidoRepository.save(pedido.get());
     }
 }
