@@ -6,11 +6,11 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsumerPedido {
+public class PedidoConsumer {
 
     private final IFinalizarPedidoService service;
 
-    public ConsumerPedido(IFinalizarPedidoService service) {
+    public PedidoConsumer(IFinalizarPedidoService service) {
         this.service = service;
     }
 

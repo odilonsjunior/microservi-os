@@ -3,6 +3,7 @@ package br.com.ecommerce.school.produtosms.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public class Produto {
 
     private BigDecimal valor;
 
+    @Min(0)
     private BigDecimal quantidade;
 
     public String getCodigo() {

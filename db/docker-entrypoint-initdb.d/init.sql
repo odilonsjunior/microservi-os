@@ -125,7 +125,7 @@ USE produtos;
 create table produtos (
     codigo varchar(255) not null,
     descricao varchar(255),
-    quantidade decimal(19,2),
+    quantidade decimal(19,2) UNSIGNED,
     valor decimal(19,2),
     primary key (codigo)
 );
@@ -133,7 +133,6 @@ create table produtos (
 INSERT INTO produtos
 (codigo, descricao, quantidade, valor)
 VALUES('73d42efa-68d2-4296-ac1e-8201119adadc', 'Mochila de hidratacao', 1, 200.00);
-
 
 INSERT INTO produtos
 (codigo, descricao, quantidade, valor)

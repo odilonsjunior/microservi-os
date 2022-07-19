@@ -14,8 +14,8 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionsHandler.class);
 
-    @ExceptionHandler(InvalidOrderException.class)
-    public ResponseEntity<ExceptionResponse> handleDefaultException(final InvalidOrderException ex) {
+    @ExceptionHandler(AbstractException.class)
+    public ResponseEntity<ExceptionResponse> handleDefaultException(final AbstractException ex) {
         final ExceptionResponse exceptionResponse = montarResponseBasica("001", ex.getMessage());
 
         return new ResponseEntity<>(exceptionResponse

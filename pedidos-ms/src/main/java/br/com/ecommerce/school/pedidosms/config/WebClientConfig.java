@@ -11,13 +11,26 @@ public class WebClientConfig {
 
     public static final String BEAN_CLIENTE = "cliente";
 
+    public static final String BEAN_PRODUTO = "produto";
+
     @Value("${url.server.cliente}")
-    private String url;
+    private String urlCliente;
+
+
+    @Value("${url.server.produto}")
+    private String urlProduto;
 
     @Bean(name = BEAN_CLIENTE)
     public WebClient getWebClienteForClienteService() {
         return WebClient.builder()
-                .baseUrl(url)
+                .baseUrl(urlCliente)
+                .build();
+    }
+
+    @Bean(name = BEAN_PRODUTO)
+    public WebClient getWebClientProduto() {
+        return WebClient.builder()
+                .baseUrl(urlProduto)
                 .build();
     }
 }

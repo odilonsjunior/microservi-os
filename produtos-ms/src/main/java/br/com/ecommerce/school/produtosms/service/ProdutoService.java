@@ -26,6 +26,10 @@ public class ProdutoService implements IProdutoService {
         } else {
             throw new ProdutoNaoEncontradoException("Produto não encontrado");
         }
+    }
 
+    @Override
+    public Optional<Produto> buscar(String codigo) {
+        return produtoRepository.findById(codigo);
     }
 }
