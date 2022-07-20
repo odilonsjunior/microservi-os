@@ -37,7 +37,7 @@ public class ProcessadorPedidoService implements IProcessadorPedidoService {
 
 
         //produzir messagem de produto finalizado
-        producer.finalizarPedido(new PedidoFinalizadoDTO(pedido.getCodigo(), "FINALIZADO", "Pronto para retirada"));
+        producer.finalizarPedido(new PedidoFinalizadoDTO(pedido.getCodigo(), "DISPONIVEL_RETIRADA", "Pronto para retirada"));
 
     }
 }

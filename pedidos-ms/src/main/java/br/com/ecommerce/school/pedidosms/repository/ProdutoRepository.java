@@ -1,7 +1,6 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
 import br.com.ecommerce.school.pedidosms.config.WebClientConfig;
-import br.com.ecommerce.school.pedidosms.dto.ClienteDTO;
 import br.com.ecommerce.school.pedidosms.dto.ItemPedidoDTO;
 import br.com.ecommerce.school.pedidosms.dto.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -5,5 +5,6 @@ public enum EStatusPedido {
     FINALIZADO,
     ERRO,
     DISPONIVEL_RETIRADA,
-    CANCELADO
+    CANCELADO,
+    ERRO_PROCESSAMENTO
 }

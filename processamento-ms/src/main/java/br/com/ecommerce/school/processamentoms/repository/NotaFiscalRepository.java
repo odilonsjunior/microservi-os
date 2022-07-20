@@ -1,6 +1,7 @@
 package br.com.ecommerce.school.processamentoms.repository;
 
 import br.com.ecommerce.school.processamentoms.config.WebClientConfig;
+import br.com.ecommerce.school.processamentoms.dto.ErroNotificacaoDTO;
 import br.com.ecommerce.school.processamentoms.dto.PedidoDTO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +17,11 @@ public class NotaFiscalRepository implements INotaFiscalRepository {
     @Value("${uri.emissao.nf}")
     private String uri;
 
-    public NotaFiscalRepository(@Qualifier(WebClientConfig.BEAN_NFE) WebClient webClient) {
+    private final INotificarErro notificarErro;
+
+    public NotaFiscalRepository(@Qualifier(WebClientConfig.BEAN_NFE) WebClient webClient, INotificarErro notificarErro) {
         this.webClient = webClient;
+        this.notificarErro = notificarErro;
     }
 
     @Override
@@ -26,6 +30,10 @@ public class NotaFiscalRepository implements INotaFiscalRepository {
                 .body(BodyInserters.fromValue(pedido))
                 .retrieve()
                 .toEntity(String.class)
+                .doOnError(throwable -> {
+                    ErroNotificacaoDTO erroNotificacao = new ErroNotificacaoDTO(pedido.getCodigo(), "ERRO_PROCESSAMENTO", "processamento-ms");
+                    notificarErro.notificar(erroNotificacao);
+                })
                 .block();
     }
 }
