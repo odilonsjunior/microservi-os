@@ -1,7 +1,6 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
 import br.com.ecommerce.school.pedidosms.config.WebClientConfig;
-import br.com.ecommerce.school.pedidosms.dto.ItemPedidoDTO;
 import br.com.ecommerce.school.pedidosms.dto.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +24,10 @@ public class ProdutoRepository implements IProdutoRepository {
     }
 
     @Override
-    public Optional<ProdutoDTO> buscar(ItemPedidoDTO produto) {
+    public Optional<ProdutoDTO> buscar(String produto) {
         Optional<ResponseEntity<ProdutoDTO>> responseEntity =
                 Optional.ofNullable(webClient.get()
-                        .uri(uriBuilder -> uriBuilder.path(uri).build(produto.getCodigo()))
+                        .uri(uriBuilder -> uriBuilder.path(uri).build(produto))
                         .retrieve()
                         .toEntity(ProdutoDTO.class)
                         .block());

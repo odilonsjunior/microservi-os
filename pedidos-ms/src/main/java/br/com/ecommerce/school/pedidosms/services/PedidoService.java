@@ -17,10 +17,13 @@ import br.com.ecommerce.school.pedidosms.repository.IProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class CriarPedidoService implements ICriarPedidoService {
+public class PedidoService implements IPedidoService {
 
     private final IPedidoProducer pedidoProducer;
 
@@ -30,13 +33,13 @@ public class CriarPedidoService implements ICriarPedidoService {
 
     private final IProdutoRepository produtoRepository;
 
-    public CriarPedidoService(
+    public PedidoService(
             IPedidoProducer pedidoProducer,
-            IClienteRepository clienteService,
+            IClienteRepository clienteRepository,
             IPedidoRepository repository, IProdutoRepository produtoRepository) {
 
         this.pedidoProducer = pedidoProducer;
-        this.clienteRepository = clienteService;
+        this.clienteRepository = clienteRepository;
         this.pedidoRepository = repository;
         this.produtoRepository = produtoRepository;
     }
@@ -58,9 +61,38 @@ public class CriarPedidoService implements ICriarPedidoService {
         return new PedidoCriadoDTO(pedidoCriado.getCodigo());
     }
 
+    @Override
+    public Optional<br.com.ecommerce.school.pedidosms.dto.consultarPedido.PedidoDTO> consultarPorCodigo(String codigo) {
+        final Optional<Pedido> pedido = pedidoRepository.findById(codigo);
+
+        if (pedido.isPresent()) {
+            //buscar outras informações
+            final Optional<ClienteDTO> cliente = clienteRepository.buscar(pedido.get().getCliente());
+
+            List<ProdutoDTO> produtos = new ArrayList<>();
+
+            pedido.get().getItems().stream().forEach(dto -> produtos.add(produtoRepository.buscar(dto.getCodigo()).get()));
+
+
+            final List<br.com.ecommerce.school.pedidosms.dto.consultarPedido.ItemPedidoDTO> itens =
+                    produtos.stream().map(p -> new br.com.ecommerce.school.pedidosms.dto.consultarPedido.ItemPedidoDTO("", BigDecimal.ZERO, p.getCodigo())).collect(Collectors.toList());
+
+
+            final br.com.ecommerce.school.pedidosms.dto.consultarPedido.ClienteDTO clientePedido =
+                    new br.com.ecommerce.school.pedidosms.dto.consultarPedido.ClienteDTO(cliente.get().getCodigo(),
+                            cliente.get().getPrimeiroNome(), cliente.get().getUltimoNome(), cliente.get().getEmail());
+
+            return Optional.of(new br.com.ecommerce.school.pedidosms.dto.consultarPedido.PedidoDTO(pedido.get().getCodigo(), clientePedido, itens,
+                    pedido.get().getStatus().name()));
+
+        }
+
+        return Optional.empty();
+    }
+
     private void validarProduto(PedidoDTO pedidoDTO) {
         for (ItemPedidoDTO item : pedidoDTO.getProdutos()) {
-            final Optional<ProdutoDTO> produto = produtoRepository.buscar(item);
+            final Optional<ProdutoDTO> produto = produtoRepository.buscar(item.getCodigo());
 
             BigDecimal quantidadeSolicitada = item.getQuantidade();
             BigDecimal saldoEstoque = produto.get().getQuantidade();
