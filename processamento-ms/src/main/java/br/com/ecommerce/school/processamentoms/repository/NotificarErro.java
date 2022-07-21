@@ -1,5 +1,8 @@
 package br.com.ecommerce.school.processamentoms.repository;
 
+
+import br.com.ecommerce.school.processamentoms.config.custom.IErroNotificacaoDTO;
+import br.com.ecommerce.school.processamentoms.config.custom.INotificarErro;
 import br.com.ecommerce.school.processamentoms.dto.ErroNotificacaoDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -16,7 +19,7 @@ public class NotificarErro implements INotificarErro {
     }
 
     @Override
-    public void notificar(ErroNotificacaoDTO dto) {
-        notificacaoProducer.enviar(topico, dto);
+    public void notificar(IErroNotificacaoDTO dto) {
+        notificacaoProducer.enviar(topico, (ErroNotificacaoDTO) dto);
     }
 }
