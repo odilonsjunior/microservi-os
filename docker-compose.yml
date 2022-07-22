@@ -24,7 +24,6 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
   db:
     container_name: banco-dados
     image: mysql:5.7
@@ -68,6 +67,8 @@ services:
     image: pedido-ms:latest
     ports:
       - 8001:8001
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
 
   processamento:
     depends_on:
@@ -79,6 +80,8 @@ services:
     image: processamento-ms:latest
     ports:
       - 8081:8081
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
 
   produto:
     depends_on:

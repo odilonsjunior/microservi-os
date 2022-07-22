@@ -28,11 +28,7 @@ public class ProcessadorPedidoService implements IProcessadorPedidoService {
         notaFiscal.gerar(pedido);
 
         //baixar estoque
-        try {
-            pedido.getProdutos().forEach(p -> estoque.executarBaixa(p));
-        }catch (Exception ex){
-            producer.finalizarPedido(new PedidoFinalizadoDTO(pedido.getCodigo(), "ERROR", ""));
-        }
+        pedido.getProdutos().forEach(p -> estoque.executarBaixa(p));
 
 
         //produzir messagem de produto finalizado

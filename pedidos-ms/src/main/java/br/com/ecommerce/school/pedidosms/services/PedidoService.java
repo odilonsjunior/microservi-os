@@ -75,7 +75,8 @@ public class PedidoService implements IPedidoService {
 
 
             final List<br.com.ecommerce.school.pedidosms.dto.consultarPedido.ItemPedidoDTO> itens =
-                    produtos.stream().map(p -> new br.com.ecommerce.school.pedidosms.dto.consultarPedido.ItemPedidoDTO("", BigDecimal.ZERO, p.getCodigo())).collect(Collectors.toList());
+                    produtos.stream().map(p -> new br.com.ecommerce.school.pedidosms.dto.
+                            consultarPedido.ItemPedidoDTO("", BigDecimal.ZERO, p.getCodigo())).collect(Collectors.toList());
 
 
             final br.com.ecommerce.school.pedidosms.dto.consultarPedido.ClienteDTO clientePedido =
