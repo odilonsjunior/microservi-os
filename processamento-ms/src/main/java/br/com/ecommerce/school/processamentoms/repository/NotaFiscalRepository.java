@@ -17,22 +17,22 @@ public class NotaFiscalRepository implements INotaFiscalRepository {
     @Value("${url.server.nf}")
     private String url;
 
-    private final INotificarErro notificarErro;
+    private final INotificarErro notificarErroImp;
 
     public NotaFiscalRepository(INotificarErro notificarErro) {
-        this.notificarErro = notificarErro;
+        this.notificarErroImp = notificarErro;
     }
 
     @Override
     public void gerar(PedidoDTO pedido) {
 
-        final IErroNotificacaoDTO erroNotificacao = new ErroNotificacaoDTO(pedido.getCodigo(), "ERRO_PROCESSAMENTO", "processamento-ms");
+        final IErroNotificacaoDTO notificacaoDTO = new ErroNotificacaoDTO(pedido.getCodigo(), "ERRO_PROCESSAMENTO", "processamento-ms");
 
         new WebClientCustomBuilder<String>()
                 .withBaseUrlAndUri(url, uri)
                 .withPost()
                 .withBody(pedido)
-                .withNotificarError(notificarErro, erroNotificacao)
+                .withNotificarError(notificarErroImp, notificacaoDTO)
                 .build();
     }
 }
