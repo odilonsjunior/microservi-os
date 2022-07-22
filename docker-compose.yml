@@ -2,14 +2,16 @@ version: "3.3"
 
 services:
   zookeeper:
+    container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
-
+      - 2181:2181
   kafka:
+    container_name: kafka
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
@@ -24,6 +26,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   db:
+    container_name: banco-dados
     image: mysql:5.7
     restart: always
     environment:
@@ -36,11 +39,57 @@ services:
       - "./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
 
   nota-fiscal:
+    container_name: nota-fiscal
     image: wiremock/wiremock
     ports:
       - 8090:8080
     volumes:
       - "./wiremock:/home/wiremock/mappings/"
+
+  cliente:
+    depends_on:
+      - db
+    container_name: clientes
+    build:
+      context: cliente-ms
+      dockerfile: Dockerfile
+    image: cliente-ms:latest
+    ports:
+      - 8000:8000
+
+  pedido:
+    depends_on:
+      - kafka
+      - db
+    container_name: pedidos
+    build:
+      context: pedidos-ms
+      dockerfile: Dockerfile
+    image: pedido-ms:latest
+    ports:
+      - 8001:8001
+
+  processamento:
+    depends_on:
+      - kafka
+    container_name: processamentos
+    build:
+      context: processamento-ms
+      dockerfile: Dockerfile
+    image: processamento-ms:latest
+    ports:
+      - 8081:8081
+
+  produto:
+    depends_on:
+      - db
+    container_name: produtos
+    build:
+      context: produtos-ms
+      dockerfile: Dockerfile
+    image: produtos-ms:latest
+    ports:
+      - 8003:8003
 
 
 ### NETWORKS ###
