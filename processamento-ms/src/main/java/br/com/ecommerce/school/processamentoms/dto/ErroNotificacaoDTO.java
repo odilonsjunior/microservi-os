@@ -1,6 +1,8 @@
 package br.com.ecommerce.school.processamentoms.dto;
 
-public class ErroNotificacaoDTO {
+import br.com.ecommerce.school.processamentoms.config.custom.IErroNotificacaoDTO;
+
+public class ErroNotificacaoDTO implements IErroNotificacaoDTO {
     public String codigo;
     public String status;
     public String servico;

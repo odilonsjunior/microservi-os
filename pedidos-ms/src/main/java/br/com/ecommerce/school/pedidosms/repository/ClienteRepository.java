@@ -1,38 +1,32 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
+import br.com.ecommerce.school.pedidosms.config.custom.WebClientCustomBuilder;
 import br.com.ecommerce.school.pedidosms.dto.ClienteDTO;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.reactive.function.client.WebClient;
-import br.com.ecommerce.school.pedidosms.config.WebClientConfig;
 
 import java.util.Optional;
 
 @Repository
 public class ClienteRepository implements IClienteRepository {
 
-    private final WebClient webClient;
-
     @Value("${uri.buscar.cliente}")
     private String uri;
 
-    public ClienteRepository(@Qualifier(WebClientConfig.BEAN_CLIENTE) WebClient webClient) {
-        this.webClient = webClient;
-    }
+    @Value("${url.server.cliente}")
+    private String url;
 
     @Override
     public Optional<ClienteDTO> buscar(String cliente) {
 
-        Optional<ResponseEntity<ClienteDTO>> responseEntity =
-                Optional.ofNullable(webClient.get()
-                        .uri(uriBuilder -> uriBuilder.path(uri).build(cliente))
-                        .retrieve()
-                        .toEntity(ClienteDTO.class)
-                        .block());
+        final ResponseEntity<ClienteDTO> responseEntity = new WebClientCustomBuilder<ClienteDTO>()
+                .withBaseUrlAndUri(url, uri)
+                .withGet()
+                .withPathParam("cliente", cliente)
+                .withToResponseEntity(ClienteDTO.class)
+                .build();
 
-        return responseEntity.map(HttpEntity::getBody);
+        return Optional.ofNullable(responseEntity.getBody());
     }
 }

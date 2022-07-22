@@ -1,7 +1,6 @@
 package br.com.ecommerce.school.pedidosms.repository;
 
 import br.com.ecommerce.school.pedidosms.dto.PedidoErroDTO;
-import br.com.ecommerce.school.pedidosms.dto.PedidoFinalizadoDTO;
 import br.com.ecommerce.school.pedidosms.services.IFinalizarPedidoService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
