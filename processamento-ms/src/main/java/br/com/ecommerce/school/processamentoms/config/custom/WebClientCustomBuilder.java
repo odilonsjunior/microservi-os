@@ -186,11 +186,6 @@ public class WebClientCustomBuilder<T> {
         return new MethodStepBuilder();
     }
 
-    public IMethodStepBuilder<T> withBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-        return new MethodStepBuilder();
-    }
-
     private WebClient getBuilder() {
         final WebClient.Builder builder = WebClient.builder();
 
