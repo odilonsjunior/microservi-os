@@ -37,6 +37,53 @@ services:
     volumes:
       - "./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
 
+  ### JAEGER ###
+  jaeger-all-in-one:
+    container_name: ecommerce-school-jaeger
+    image: jaegertracing/all-in-one:1.36
+    ports:
+      - 5775:5775/udp
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778/tcp
+      - 16686:16686
+      - 14268:14268
+      - 9411:9411
+      - 14250:14250
+    environment:
+      - LOG_LEVEL=debug
+      - COLLECTOR_OTLP_ENABLED=true
+
+  # Collector
+  otel-collector:
+    image: otel/opentelemetry-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "1888:1888"   # pprof extension
+      - "8888:8888"   # Prometheus metrics exposed by the collector
+      - "8889:8889"   # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP http receiver
+      - "55679:55679" # zpages extension
+    depends_on:
+      - jaeger-all-in-one
+
+  grafana:
+    image: grafana/grafana-enterprise:8.2.0
+    ports:
+      - 3000:3000
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus-config/prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
   nota-fiscal:
     container_name: nota-fiscal
     image: wiremock/wiremock
@@ -45,55 +92,74 @@ services:
     volumes:
       - "./wiremock:/home/wiremock/mappings/"
 
-  cliente:
-    depends_on:
-      - db
-    container_name: clientes
-    build:
-      context: cliente-ms
-      dockerfile: Dockerfile
+
+  ### MICRO-SERVICE: cliente-ms ###
+  cliente-ms:
     image: cliente-ms:latest
     ports:
       - 8000:8000
-
-  pedido:
+      - 7771:7771
+    build:
+      context: cliente-ms
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
-      - kafka
+      - nota-fiscal
       - db
-    container_name: pedidos
+      - kafka
+      - otel-collector
+
+  ### MICRO-SERVICE: pedidos-ms ###
+  pedidos-ms:
+    image: pedidos-ms:latest
+    ports:
+      - 8001:8001
+      - 7772:7772
     build:
       context: pedidos-ms
       dockerfile: Dockerfile
-    image: pedido-ms:latest
-    ports:
-      - 8001:8001
     environment:
-      - "SPRING_PROFILES_ACTIVE=prod"
-
-  processamento:
+      - SPRING_PROFILES_ACTIVE=prod
     depends_on:
+      - nota-fiscal
+      - db
       - kafka
-    container_name: processamentos
-    build:
-      context: processamento-ms
-      dockerfile: Dockerfile
+      - otel-collector
+
+  ### MICRO-SERVICE: processamento-ms ###
+  processamento-ms:
     image: processamento-ms:latest
     ports:
       - 8081:8081
-    environment:
-      - "SPRING_PROFILES_ACTIVE=prod"
-
-  produto:
-    depends_on:
-      - db
-    container_name: produtos
+      - 7773:7773
     build:
-      context: produtos-ms
+      context: processamento-ms
       dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - nota-fiscal
+      - db
+      - kafka
+      - otel-collector
+
+  ### MICRO-SERVICE: produtos-ms ###
+  produtos-ms:
     image: produtos-ms:latest
     ports:
       - 8003:8003
-
+      - 7774:7774
+    build:
+      context: produtos-ms
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - nota-fiscal
+      - db
+      - kafka
+      - otel-collector
 
 ### NETWORKS ###
 networks:

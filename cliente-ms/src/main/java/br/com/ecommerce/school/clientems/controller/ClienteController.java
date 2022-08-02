@@ -22,7 +22,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{cliente}")
-    public ResponseEntity<Cliente> buscar(@PathVariable(required=false,name="cliente")  String cliente) {
+    public ResponseEntity<Cliente> buscar(@PathVariable(required=false,name="cliente") String cliente) {
         final Optional<Cliente> buscar = service.buscar(cliente);
         if (buscar.isPresent()) {
             return ResponseEntity.ok(buscar.get());
@@ -30,5 +30,4 @@ public class ClienteController {
             throw new ClientNotFoudException();
         }
     }
-
 }
