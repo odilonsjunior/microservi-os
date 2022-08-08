@@ -1,6 +1,10 @@
 package br.com.ecommerce.school.processamentoms.config.custom;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -14,22 +18,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class WebClientCustomBuilder<T> {
 
     private final WebClientCustomBuilder<T> builder;
+    private final WebClient.Builder webBuilder;
     private String baseUrl;
     private String uri;
     private IErroNotificacaoDTO notificacaoDTO;
     private Object body;
     private final Map<String, Object> uriVariables = new HashMap<>();
+    private final Map<String, String> headers = new HashMap<>();
     private HttpMethod httpMethod;
     private INotificarErro notificarErro;
     private final List<ExchangeFilterFunction> filters = new ArrayList<>();
     private Class<T> tClass;
+    public static final Logger LOGGER = LoggerFactory.getLogger(WebClientCustomBuilder.class);
 
-    public WebClientCustomBuilder() {
-        builder = this;
+    public WebClientCustomBuilder(WebClient.Builder builder) {
+        this.webBuilder = builder;
+        this.builder = this;
     }
 
     /**
@@ -63,14 +72,26 @@ public class WebClientCustomBuilder<T> {
         }
 
         @Override
-        public IMethodStepBuilder<T> filter(ExchangeFilterFunction filter) {
+        public IMethodStepBuilder<T> withFilter(ExchangeFilterFunction filter) {
             builder.filters.add(filter);
             return this;
         }
 
         @Override
-        public IMethodStepBuilder<T> filters(List<ExchangeFilterFunction> filters) {
+        public IMethodStepBuilder<T> withFilters(List<ExchangeFilterFunction> filters) {
             builder.filters.addAll(filters);
+            return this;
+        }
+
+        @Override
+        public IMethodStepBuilder<T> withHeaders(Map<String, String> headers) {
+            builder.headers.putAll(headers);
+            return this;
+        }
+
+        @Override
+        public IMethodStepBuilder<T> withHeader(String key, String value) {
+            builder.headers.put(key, value);
             return this;
         }
 
@@ -187,15 +208,19 @@ public class WebClientCustomBuilder<T> {
     }
 
     private WebClient getBuilder() {
-        final WebClient.Builder builder = WebClient.builder();
 
         if (!this.filters.isEmpty()) {
-            this.filters.forEach(builder::filter);
+            this.filters.forEach(this.webBuilder::filter);
         }
 
-        return builder
-            .baseUrl(this.baseUrl)
-            .build();
+        Consumer<HttpHeaders> headersConsumer = httpHeaders -> headers.keySet().forEach(key -> {
+            httpHeaders.add(key, headers.get(key));
+        });
+
+        return this.webBuilder
+                .baseUrl(this.baseUrl)
+                .defaultHeaders(headersConsumer)
+                .build();
     }
 
     /**

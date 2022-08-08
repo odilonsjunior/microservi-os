@@ -132,9 +132,9 @@ create table produtos (
 
 INSERT INTO produtos
 (codigo, descricao, quantidade, valor)
-VALUES('73d42efa-68d2-4296-ac1e-8201119adadc', 'Mochila de hidratacao', 1, 200.00);
+VALUES('73d42efa-68d2-4296-ac1e-8201119adadc', 'Mochila de hidratacao', 1000, 200.00);
 
 INSERT INTO produtos
 (codigo, descricao, quantidade, valor)
-VALUES('cadeb8e6-9594-41af-8769-b083e897b4c1', 'Tenis de trilha', 1, 350.00);
+VALUES('cadeb8e6-9594-41af-8769-b083e897b4c1', 'Tenis de trilha', 1000, 350.00);
 

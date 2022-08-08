@@ -22,13 +22,15 @@ processors:
 
 extensions:
   health_check:
+  memory_ballast:
+    size_mib: 512
   pprof:
     endpoint: :1888
   zpages:
     endpoint: :55679
 
 service:
-  extensions: [ pprof, zpages, health_check ]
+  extensions: [ pprof, zpages, health_check, memory_ballast ]
   pipelines:
     traces:
       receivers: [otlp]

@@ -5,8 +5,11 @@ import br.com.ecommerce.school.processamentoms.config.custom.INotificarErro;
 import br.com.ecommerce.school.processamentoms.config.custom.WebClientCustomBuilder;
 import br.com.ecommerce.school.processamentoms.dto.ErroNotificacaoDTO;
 import br.com.ecommerce.school.processamentoms.dto.PedidoDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Repository
 public class NotaFiscalRepository implements INotaFiscalRepository {
@@ -19,6 +22,10 @@ public class NotaFiscalRepository implements INotaFiscalRepository {
 
     private final INotificarErro notificarErroImp;
 
+    @Autowired
+    @Qualifier("webClientBuilder")
+    private WebClient.Builder builder;
+
     public NotaFiscalRepository(INotificarErro notificarErro) {
         this.notificarErroImp = notificarErro;
     }
@@ -28,7 +35,7 @@ public class NotaFiscalRepository implements INotaFiscalRepository {
 
         final IErroNotificacaoDTO notificacaoDTO = new ErroNotificacaoDTO(pedido.getCodigo(), "ERRO_PROCESSAMENTO", "processamento-ms");
 
-        new WebClientCustomBuilder<String>()
+        new WebClientCustomBuilder<String>(builder)
                 .withBaseUrlAndUri(url, uri)
                 .withPost()
                 .withBody(pedido)
